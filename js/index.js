@@ -13,6 +13,9 @@ var enginer = {
    moedas: 0,
 };
 
+const audio_moeda = new Audio("/audio/moeda.mp3");
+const audio_errou = new Audio("/audio/errou.mp3");
+
 
 // Escolher uma cor aleatória e colocar na tag com id "cor-aleatoria"
 function escolherCorAleatoria() {
@@ -32,4 +35,51 @@ function aplicarCor() {
     cor_caixa.style.backgroundSize = "100%";
     return corAleatoria;
 }
+
+
+function atualizaPontuacao(valor) {
+    var pontuacao = document.getElementById("pontuacao-atual");
+    enginer.moedas += valor;
+
+    if (valor > 0) {
+        audio_moeda.play();
+    } else {
+        audio_errou.play();
+    }
+    pontuacao.innerHTML = enginer.moedas;
+    return "Pontuação atualizada!"
+}
+
+
+var btnResponder = document.getElementById("btn-responder ");
+var transcrever = ""
+
+if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+    var SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var gravador = new SpeechAPI();
+    gravador.continuous = true;
+    gravador.lang = "en-US";
+
+    gravador.onstart = function () {
+        // texto interno do botão esteja estou ouvindo, vai ficar branco e lerta escura
+        btnResponder.innerHTML = "Estou ouvindo...";
+        btnResponder.style.backgroundColor = "white";
+        btnResponder.style.color = "black";
+    }
+
+    gravador.onend = function () {
+        // texto interno do botão esteja responder, vai ficar preto e lerta branca
+        btnResponder.innerHTML = "Responder";
+        btnResponder.style.backgroundColor = "transparent";
+        btnResponder.style.color = "white";
+    }
+
+    gravador.onresult = function (evento) {
+        console.log(evento);
+    }
+
+} else {
+    alert("Seu navegador não suporta a API de Reconhecimento de voz");
+}
+
 

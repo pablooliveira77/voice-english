@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="shortcut icon" href="/img/logo-dio.png" type="image/x-icon">
     <title>Jogo de voz</title>
 </head>
 <body>
@@ -11,7 +12,7 @@
         <header id="header">
             <div id="point">
                 <img src="./img/moeda.png" height="20px" alt="Moeda supermario">
-                <p>pontuação 0</p>
+                <p>pontuação: <span id="pontuacao-atual">0</span></p>
             </div>
             <div id="game">
                 <p>Jogo de voz do super mario</p>
@@ -26,7 +27,7 @@
                 <div id="cor-caixa" onclick="aplicarCor()">
 
                 </div>
-                <button>RESPONDER</button>
+                <button id="btn-responder">RESPONDER</button>
 
             </div>
             <div id="img-mario">
