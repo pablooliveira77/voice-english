@@ -51,13 +51,13 @@ function atualizaPontuacao(valor) {
 }
 
 
-var btnResponder = document.getElementById("btn-responder ");
+var btnResponder = document.getElementById("btn-responder");
 var transcrever = ""
 
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
     var SpeechAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
     var gravador = new SpeechAPI();
-    gravador.continuous = true;
+    gravador.continuous = false;
     gravador.lang = "en-US";
 
     gravador.onstart = function () {
@@ -75,11 +75,34 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
     }
 
     gravador.onresult = function (evento) {
-        console.log(evento);
+        transcrever = evento.results[0][0].transcript.toUpperCase();
+        var resposta = document.getElementById("cor-aleatoria").innerHTML.toUpperCase();
+
+        console.log("Cor escolhida: ",resposta);
+        console.log("O que ouvi: ",transcrever);
+        if (transcrever == resposta) {
+            atualizaPontuacao(1);
+            aplicarCor(escolherCorAleatoria());
+            addTexto(``);
+            aplicarCor(escolherCorAleatoria());
+        } else {
+            atualizaPontuacao(-1);
+            addTexto(`O que ouvi ${transcrever}!`);
+        }
     }
 
 } else {
     alert("Seu navegador não suporta a API de Reconhecimento de voz");
 }
 
+// func add texto no div#resposta
+function addTexto(texto) {
+    var div_resposta = document.getElementById("resposta");
+    div_resposta.innerHTML = texto;
+}
 
+aplicarCor(escolherCorAleatoria())
+
+btnResponder.addEventListener("click", function () {
+    gravador.start();
+});
